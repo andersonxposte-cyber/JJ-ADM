@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0e">
+<title>JJ ADM</title>
+<style>
+:root{--bg:#09090c;--panel:#15151b;--panel2:#202027;--red:#e33b43;--gold:#e5b84b;--muted:#a6a6b0;--line:#303039}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#321217 0,transparent 34%),var(--bg);color:#f7f7fa;font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:22px 18px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0b0b0eee;backdrop-filter:blur(12px);z-index:3}
+.brand{display:flex;align-items:center;justify-content:space-between}.brand h1{margin:0;color:var(--gold);letter-spacing:2px;font-size:25px}.tag{font-size:10px;border:1px solid #80612b;color:var(--gold);padding:5px 8px;border-radius:20px}
+.sub{color:var(--muted);font-size:12px;margin-top:4px}
+main{padding:16px 15px 100px;max-width:760px;margin:auto}.hero{background:linear-gradient(130deg,#351116,#17151b 58%,#29200e);border:1px solid #633035;border-radius:18px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden}.hero:after{content:"JJ";position:absolute;right:8px;bottom:-28px;font-size:110px;font-weight:900;color:#ffffff0a}.hero h2{margin:0 0 5px;font-size:22px}.hero p{margin:0;color:#c7c3c5;font-size:13px}.section-title{font-size:17px;margin:22px 0 10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px}.metric{font-size:25px;color:var(--gold);font-weight:800}.muted{color:var(--muted);font-size:12px}.card strong{display:block;margin-bottom:5px}.nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#111116f5;border-top:1px solid var(--line);padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:5;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#aaa;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px;min-width:54px}.nav button span{font-size:19px}.nav button.active{color:var(--gold)}button,.btn{border:0;border-radius:10px;padding:11px 13px;background:linear-gradient(135deg,#b92932,#e4474c);color:white;font-weight:700;cursor:pointer}.btn.secondary{background:var(--panel2);border:1px solid var(--line)}.btn.gold{background:linear-gradient(135deg,#9b7024,#e5b84b);color:#17120a}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}input,select,textarea{width:100%;background:#0d0d12;border:1px solid var(--line);border-radius:10px;padding:11px;color:white;margin:5px 0 12px;font:inherit}label{font-size:12px;color:#d5d5dc}textarea{min-height:90px;resize:vertical}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.item{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}.item h3{margin:0 0 5px;font-size:15px}.pill{font-size:10px;color:var(--gold);border:1px solid #705526;padding:3px 7px;border-radius:20px}.hidden{display:none!important}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.small{font-size:11px;color:var(--muted)}.phase{border-left:2px solid var(--gold);padding:3px 0 3px 12px;margin:12px 0}.footer{text-align:center;color:#b18c43;font-size:11px;margin:28px 0 8px}
+</style>
+</head>
+<body>
+<header><div class="brand"><h1>JJ ADM</h1><span class="tag">ESPORTS MANAGER</span></div><div class="sub">Organização • Campeonatos • Controlo</div></header>
+<main id="app">
+<section id="home">
+ <div class="hero"><h2>Bem-vindo, ADM!</h2><p>O teu centro de organização de campeonatos.</p></div>
+ <div class="grid">
+  <div class="card"><div class="muted">Campeonatos guardados</div><div class="metric" id="mT">0</div></div>
+  <div class="card"><div class="muted">Equipas registadas</div><div class="metric" id="mE">0</div></div>
+  <div class="card"><div class="muted">Campeonatos ativos</div><div class="metric" id="mA">0</div></div>
+  <div class="card"><div class="muted">Notas guardadas</div><div class="metric" id="mN">0</div></div>
+ </div>
+ <h2 class="section-title">Acesso rápido</h2>
+ <div class="grid">
+  <button onclick="show('tournaments')">🏆 Campeonatos</button><button class="btn gold" onclick="show('notes')">📝 Inventário</button>
+ </div>
+ <div class="item"><strong>Sincronização</strong><div class="small">Esta versão guarda os dados neste dispositivo. A sincronização na nuvem será ligada numa etapa de backend.</div></div>
+</section>
+<section id="tournaments" class="hidden">
+ <h2 class="section-title">Campeonatos</h2>
+ <div class="grid"><button onclick="openCreate('Contra Squad')">＋ Contra Squad</button><button class="btn gold" onclick="openCreate('Mapa Aberto')">＋ Mapa Aberto</button></div>
+ <div id="tournamentList"></div>
+</section>
+<section id="create" class="hidden">
+ <h2 class="section-title">Novo campeonato</h2>
+ <label>Modalidade</label><input id="kind" readonly>
+ <label>Nome do campeonato</label><input id="tName" placeholder="Ex.: Torneio de sábado">
+ <label>Data</label><input id="tDate" type="date">
+ <label>Número de equipas (4 a 16)</label><select id="teamCount"><option>4</option><option>6</option><option>8</option><option>16</option></select>
+ <label>Nomes das equipas (um por linha)</label><textarea id="teamNames" placeholder="Equipa Alpha&#10;Equipa Bravo&#10;Equipa Delta&#10;Equipa Omega"></textarea>
+ <div id="mapFields" class="hidden"><label>ID da sala (opcional)</label><input id="roomId"><label>Senha da sala (opcional)</label><input id="roomPass"></div>
+ <div class="actions"><button onclick="saveTournament()">Guardar campeonato</button><button class="btn secondary" onclick="show('tournaments')">Cancelar</button></div>
+</section>
+<section id="detail" class="hidden"><div id="detailBody"></div></section>
+<section id="notes" class="hidden">
+ <h2 class="section-title">Inventário / Notas</h2>
+ <label>Título</label><input id="noteTitle" placeholder="Ex.: Regras do campeonato">
+ <label>Conteúdo</label><textarea id="noteBody" placeholder="Escreve aqui as tuas notas..."></textarea>
+ <button onclick="saveNote()">Guardar nota</button><div id="noteList"></div>
+</section>
+<section id="stats" class="hidden">
+ <h2 class="section-title">Estatísticas</h2><div class="grid">
+ <div class="card"><div class="muted">Total de campeonatos</div><div class="metric" id="sTotal">0</div></div>
+ <div class="card"><div class="muted">Concluídos</div><div class="metric" id="sDone">0</div></div>
+ <div class="card"><div class="muted">Equipas</div><div class="metric" id="sTeams">0</div></div>
+ <div class="card"><div class="muted">Notas</div><div class="metric" id="sNotes">0</div></div></div>
+ <h3 class="section-title">Histórico</h3><div id="history"></div>
+</section>
+<section id="settings" class="hidden">
+ <h2 class="section-title">Definições</h2><label>Nick do administrador</label><input id="adminNick" placeholder="ADM ..."><button onclick="saveProfile()">Guardar perfil</button>
+ <h3 class="section-title">Backup</h3><p class="muted">Exporta os teus registos para um ficheiro JSON. Guarda-o num local seguro.</p><div class="actions"><button onclick="backup()">Exportar backup</button><button class="btn secondary" onclick="document.getElementById('restoreFile').click()">Importar backup</button></div><input id="restoreFile" type="file" accept="application/json" class="hidden" onchange="restore(event)">
+ <h3 class="section-title">Tutorial rápido</h3><div class="item"><strong>1. Criar campeonato</strong><p class="muted">Abre Campeonatos, escolhe a modalidade, define o número de equipas e introduz os nomes.</p></div><div class="item"><strong>2. Registar resultados</strong><p class="muted">Abre um campeonato guardado e atualiza os vencedores ou a classificação das quedas.</p></div><div class="item"><strong>3. Guardar notas</strong><p class="muted">Usa Inventário para guardar regras, avisos e informações importantes.</p></div>
+ </section>
+ <div class="footer">Ánderson (jj) • JJ ADM</div>
+</main>
+<nav class="nav">
+ <button class="active" data-page="home" onclick="show('home')"><span>⌂</span>Início</button>
+ <button data-page="tournaments" onclick="show('tournaments')"><span>🏆</span>Campeonatos</button>
+ <button data-page="notes" onclick="show('notes')"><span>▤</span>Inventário</button>
+ <button data-page="stats" onclick="show('stats')"><span>▥</span>Estatísticas</button>
+ <button data-page="settings" onclick="show('settings')"><span>⚙</span>Definições</button>
+</nav>
+<script>
+const KEY='jjadm_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"tournaments":[],"notes":[],"profile":{"nick":"ADM"}}');
+function persist(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function show(page){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render()}
+function openCreate(kind){document.getElementById('kind').value=kind;document.getElementById('mapFields').classList.toggle('hidden',kind!=='Mapa Aberto');['tName','teamNames','roomId','roomPass'].forEach(id=>document.getElementById(id).value='');document.getElementById('tDate').value=new Date().toISOString().slice(0,10);show('create')}
+function saveTournament(){let name=document.getElementById('tName').value.trim(),count=+document.getElementById('teamCount').value,names=document.getElementById('teamNames').value.split('\n').map(x=>x.trim()).filter(Boolean);if(!name){alert('Introduz o nome do campeonato.');return}if(names.length!==count){alert('Introduz exatamente '+count+' nomes de equipas.');return}
+let t={id:Date.now(),kind:document.getElementById('kind').value,name,date:document.getElementById('tDate').value,teams:names,status:'Preparação',winners:[],drops:[],roomId:document.getElementById('roomId').value,roomPass:document.getElementById('roomPass').value,created:new Date().toISOString()};db.tournaments.unshift(t);persist();show('tournaments')}
+function openDetail(id){let t=db.tournaments.find(x=>x.id===id);if(!t)return;let html=`<button class="btn secondary" onclick="show('tournaments')">← Voltar</button><h2 class="section-title">${esc(t.name)}</h2><span class="pill">${esc(t.kind)}</span><p class="muted">${esc(t.date||'Sem data')} • ${esc(t.status)}</p><h3 class="section-title">Equipas (${t.teams.length})</h3>`;t.teams.forEach((x,i)=>html+=`<div class="item">${i+1}. ${esc(x)}</div>`);
+if(t.kind==='Contra Squad'){html+=`<h3 class="section-title">Sorteio de confrontos</h3><button onclick="draw(${t.id})">Sortear confrontos</button><div id="matches">`;if(t.matches)t.matches.forEach(m=>html+=`<div class="item">${esc(m[0])} <b>VS</b> ${esc(m[1])}</div>`);html+='</div><label>Equipa vencedora / classificação da fase</label><select id="winner">${t.teams.map(x=>`<option>${esc(x)}</option>`).join('')}</select><button class="btn gold" onclick="addWinner(${t.id})">Registar classificação</button>'}
+else{html+=`<h3 class="section-title">Resultados das quedas</h3><label>Queda</label><select id="dropNum"><option>Primeira queda</option><option>Segunda queda</option><option>Terceira queda</option></select><label>Resumo / pontuação</label><textarea id="dropText" placeholder="Regista a classificação desta queda"></textarea><button onclick="addDrop(${t.id})">Guardar resultado</button><div id="drops">${(t.drops||[]).map(d=>`<div class="item"><b>${esc(d.round)}</b><p class="muted">${esc(d.text)}</p></div>`).join('')}</div>`}
+html+=`<h3 class="section-title">Estado do campeonato</h3><select id="status"><option ${t.status==='Preparação'?'selected':''}>Preparação</option><option ${t.status==='Ativo'?'selected':''}>Ativo</option><option ${t.status==='Concluído'?'selected':''}>Concluído</option><option ${t.status==='Cancelado'?'selected':''}>Cancelado</option></select><button onclick="updateStatus(${t.id})">Atualizar estado</button><div class="actions"><button class="btn secondary" onclick="copyTournament(${t.id})">Copiar resumo</button><button class="btn secondary" onclick="deleteTournament(${t.id})">Eliminar</button></div>`;document.getElementById('detailBody').innerHTML=html;show('detail')}
+function draw(id){let t=db.tournaments.find(x=>x.id===id),a=[...t.teams];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}t.matches=[];for(let i=0;i<a.length;i+=2)t.matches.push([a[i],a[i+1]||'Isento']);persist();openDetail(id)}
+function addWinner(id){let t=db.tournaments.find(x=>x.id===id);t.winners.push(document.getElementById('winner').value);persist();openDetail(id)}
+function addDrop(id){let t=db.tournaments.find(x=>x.id===id);t.drops.push({round:document.getElementById('dropNum').value,text:document.getElementById('dropText').value});persist();openDetail(id)}
+function updateStatus(id){let t=db.tournaments.find(x=>x.id===id);t.status=document.getElementById('status').value;persist();openDetail(id)}
+function deleteTournament(id){if(confirm('Eliminar este campeonato?')){db.tournaments=db.tournaments.filter(t=>t.id!==id);persist();show('tournaments')}}
+function copyTournament(id){let t=db.tournaments.find(x=>x.id===id);let txt=t.name+'\\n'+t.kind+'\\nEquipas: '+t.teams.join(', ')+'\\n'+(t.matches||[]).map(m=>m.join(' VS ')).join('\\n');navigator.clipboard?.writeText(txt).then(()=>alert('Resumo copiado.')).catch(()=>alert(txt))}
+function saveNote(){let title=document.getElementById('noteTitle').value.trim(),body=document.getElementById('noteBody').value.trim();if(!title||!body){alert('Preenche o título e o conteúdo.');return}db.notes.unshift({id:Date.now(),title,body,date:new Date().toLocaleDateString('pt-PT')});document.getElementById('noteTitle').value='';document.getElementById('noteBody').value='';persist()}
+function deleteNote(id){db.notes=db.notes.filter(n=>n.id!==id);persist()}
+function saveProfile(){db.profile.nick=document.getElementById('adminNick').value.trim()||'ADM';persist();alert('Perfil guardado.')}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jj-adm-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.tournaments||!x.notes)throw 0;db=x;persist();alert('Backup importado.')}catch{alert('Ficheiro de backup inválido.')}};r.readAsText(f)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){document.getElementById('mT').textContent=db.tournaments.length;document.getElementById('mE').textContent=db.tournaments.reduce((a,t)=>a+t.teams.length,0);document.getElementById('mA').textContent=db.tournaments.filter(t=>t.status==='Ativo').length;document.getElementById('mN').textContent=db.notes.length;document.getElementById('sTotal').textContent=db.tournaments.length;document.getElementById('sDone').textContent=db.tournaments.filter(t=>t.status==='Concluído').length;document.getElementById('sTeams').textContent=db.tournaments.reduce((a,t)=>a+t.teams.length,0);document.getElementById('sNotes').textContent=db.notes.length;
+document.getElementById('tournamentList').innerHTML=db.tournaments.length?db.tournaments.map(t=>`<div class="item" onclick="openDetail(${t.id})"><div class="row"><div><h3>${esc(t.name)}</h3><div class="muted">${esc(t.kind)} • ${esc(t.date||'Sem data')} • ${t.teams.length} equipas</div></div><span class="pill">${esc(t.status)}</span></div></div>`).join(''):'<div class="empty">Ainda não existem campeonatos. Cria o primeiro.</div>';
+document.getElementById('noteList').innerHTML=db.notes.length?db.notes.map(n=>`<div class="item"><h3>${esc(n.title)}</h3><p class="muted">${esc(n.body)}</p><div class="actions"><button class="btn secondary" onclick="navigator.clipboard.writeText(${JSON.stringify(n.body)}).then(()=>alert('Nota copiada'))">Copiar</button><button class="btn secondary" onclick="deleteNote(${n.id})">Eliminar</button></div></div>`).join(''):'<div class="empty">Nenhuma nota guardada.</div>';
+document.getElementById('history').innerHTML=db.tournaments.length?db.tournaments.map(t=>`<div class="item"><b>${esc(t.name)}</b><div class="muted">${esc(t.date||'Sem data')} • ${esc(t.status)}</div></div>`).join(''):'<div class="empty">O histórico aparecerá aqui.</div>';document.getElementById('adminNick').value=db.profile.nick||'ADM'}
+render();
+</script>
+</body></html>
